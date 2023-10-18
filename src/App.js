@@ -4,8 +4,16 @@ import Card from "react-bootstrap/Card";
 import Iframe from "react-iframe";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import { useState } from "react";
+
+const link = "http://localhost:8080/api/report?name=sample_report&output=";
 
 function App() {
+  const [url, setUrl] = useState(`${link}pdf`);
+  const changeOutputType = (type) => {
+    setUrl(`${link}${type}`);
+  };
+
   return (
     <div className="App">
       <Container fluid>
@@ -17,15 +25,21 @@ function App() {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">.pdf (default)</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">.doc</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">.xls</Dropdown.Item>
+                <Dropdown.Item onClick={() => changeOutputType("pdf")}>
+                  pdf (default)
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => changeOutputType("docx")}>
+                  word
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => changeOutputType("xlsx")}>
+                  excel
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Card.Header>
           <Card.Body>
             <Iframe
-              url="http://localhost:8080/api/report?name=sample_report&output=HTML"
+              url={url}
               width="100%"
               height="600px"
               id=""
